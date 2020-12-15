@@ -1,3 +1,9 @@
+Move this folder to your $HOME folder
+Otherwise Docker attempts to copy the whole repo
+to the container as context.
+
+This is quirky on macOS
+
 [![Build Status](https://travis-ci.org/madworx/docker-netbsd.svg?branch=master)](https://travis-ci.org/madworx/docker-netbsd)
 
 # QEMU-based NetBSD docker images
@@ -12,16 +18,22 @@ Available at Docker hub as [madworx/netbsd](https://hub.docker.com/r/madworx/net
 ## Usage
 
 ### Run a specific command in NetBSD
+
 ```
-$ docker run --rm -it madworx/netbsd:8.0-x86_64 uname -a
+docker run --rm -it madworx/netbsd:8.0-x86_64 uname -a
+OR
+docker run --rm -it madworx/netbsd:9.0-x86_64 uname -a
+
 NetBSD netbsd 8.0 NetBSD 8.0 (GENERIC) #0: Tue Jul 17 14:59:51 UTC 2018  mkrepro@mkrepro.NetBSD.org:/usr/src/sys/arch/amd64/compile/GENERIC amd64
-$ 
+ 
 ```
 
 ### Start in background, connect via ssh.
 ```
-$ ssh-keygen -t rsa
-$ docker run --rm -d --device=/dev/kvm -e "SSH_PUBKEY=$(cat ~/.ssh/id_rsa.pub)" -p 2222:22 --name netbsd madworx/netbsd:8.0-x86_64
+ssh-keygen -t rsa
+docker run --rm -d --device=/dev/kvm -e "SSH_PUBKEY=$(cat ~/.ssh/id_rsa.pub)" -p 2222:22 --name netbsd madworx/netbsd:8.0-x86_64
+OR
+docker run --rm -d --device=/dev/kvm -e "SSH_PUBKEY=$(cat ~/.ssh/id_rsa.pub)" -p 2222:22 --name netbsd madworx/netbsd:9.0-x86_64
 $ ssh -p 2222 root@localhost
 NetBSD ?.? (UNKNOWN)
 
@@ -34,7 +46,9 @@ netbsd#
 or using `ssh-agent`:
 
 ``` shell
-$ docker run --rm -d --device=/dev/kvm -e "SSH_PUBKEY=$(ssh-add -L)" -p 2222:22 --name netbsd madworx/netbsd:8.0-x86_64
+docker run --rm -d --device=/dev/kvm -e "SSH_PUBKEY=$(ssh-add -L)" -p 2222:22 --name netbsd madworx/netbsd:8.0-x86_64
+OR
+docker run --rm -d --device=/dev/kvm -e "SSH_PUBKEY=$(ssh-add -L)" -p 2222:22 --name netbsd madworx/netbsd:9.0-x86_64
 $ ssh -p 2222 root@localhost
 NetBSD ?.? (UNKNOWN)
 
@@ -66,13 +80,13 @@ When running without KVM support, other target architectures supported by QEMU m
 
 ## Source
 
-Source code is hosted on [GitHub](https://github.com/madworx/docker-netbsd).
+Source code is hosted on [GitHub](https://github.com/bitcoincore-dev/docker-netbsd).
 
 
 ## Contributions
 
 Any and all contributions are welcome in form of pull requests.
 
-## Author
+## Original Author
 
 Martin Kjellstrand [martin.kjellstrand@madworx.se]
